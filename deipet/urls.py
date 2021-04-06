@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.urls import path
-from .views import index, petlist
+from .views import index, pet, pets
 
 urlpatterns = [
     path('', index),
-    path('list/', petlist),
+    path('pets/<int:id>/', pet, name='pet'),
+    path('pets/', pets, name='pets'),
 ]
