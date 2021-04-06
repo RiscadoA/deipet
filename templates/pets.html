@@ -14,54 +14,37 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Register Pet</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Unregister Pet</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-        <table class="table table-dark">
+    <div class="container mt-2 mb-2">
+        <table class="table table-hover table-sm mb-0">
+            <caption>List of pets ({{ first }} to {{ last }})</caption>
             <thead>
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
-                <th scope="col">Image</th>
+                <th scope="col">Picture</th>
             </tr>
             </thead>
             <tbody>
             {% for pet in pets %}
             <tr>
-                <th scope="row">{{ pet.id }}</th>
+                <th scope="row">
+                    <a href="{{ request.path }}{{pet.id}}/" class="btn btn-link" role="button">{{ pet.id }}</a>
+                </th>
                 <td>{{ pet.name }}</td>
                 <td class="w-25">
-                    <img src="{{ pet.imageUrls.0 }}" class="figure-img img-fluid rounded" alt="Responsive image">
+                    <img src="{{ pet.imageUrls.0 }}" class="figure-img rounded" alt="Responsive image" style="max-height: 50px;">
                 </td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
+
+        {% if prevOffset != offset %}
+        <a href="{{ request.path }}?offset={{prevOffset}}&limit={{limit}}" class="btn btn-primary" role="button">Previous</a>
+        {% endif %}
+        {% if nextOffset != offset %}
+        <a href="{{ request.path }}?offset={{nextOffset}}&limit={{limit}}" class="btn btn-primary float-right" role="button">Next</a>
+        {% endif %}
     </div>
 </body>
 
