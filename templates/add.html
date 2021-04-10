@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Add your own pet <i class="fas fa-paw"></i></h1>
+    <p class="lead">Add your own pet to the PetStore API. Choose at least one image URL.</p>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            {{ image_formset }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% if error != "" %}
+<div class="alert alert-danger mt-3" role="alert">
+    Couldn't add pet: {{ error }}!
+</div>
+{% endif %}
+{% endblock %}

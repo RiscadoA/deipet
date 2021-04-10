@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fa/css/all.min.css' %}">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <title>DEIPet</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">DEIPet <i class="fas fa-paw"></i></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item {% if nbar == 'list' %}active{% endif %}">
+                        <a class="nav-link" href="/pets/">Pets</a>
+                    </li>
+                    <li class="nav-item {% if nbar == 'add' %}active{% endif %}">
+                        <a class="nav-link" href="/add/">Add Pet</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-2 mb-2">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

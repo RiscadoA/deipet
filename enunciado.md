@@ -1,8 +1,8 @@
 # DEIPet
 
 Após muita dificuldade em determinar as melhores pessoas para manter uma reunião
-no Zoom interessante, o CP decidiu que cada departamento tem de manter um registo
-de todos os animais de estimação dos seus alunos e professores. Como
+no Zoom interessante, o CP decidiu que cada departamento tem de manter um
+registo de todos os animais de estimação dos seus alunos e professores. Como
 departamento de informática não vamos desperdiçar a oportunidade de
 disponibilizar mais gatos na internet, e por isso desenvolverá a aplicação
 *DEIPet* que ajuda na gestão da lista de animais de estimação (já com centenas
