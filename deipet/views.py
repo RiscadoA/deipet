@@ -17,15 +17,14 @@ def index(request):
 # Pet list page view
 def pets(request):
     # Get limit & offset
+    limit = 10
     if 'limit' in request.GET:
         limit = int(request.GET['limit'])
-    else:
-        limit = 10
-
+    limit = min(max(1, limit), 25)
+    offset = 0
     if 'offset' in request.GET:
         offset = int(request.GET['offset'])
-    else:
-        offset = 0
+    offset = max(0, offset)
 
     # Request pet list
     response = requests.get(PETSTORE_END_POINT, params={
@@ -33,32 +32,55 @@ def pets(request):
         "offset": offset
     })
 
-    # Render page
-    pets = response.json()
-    return render(request, 'pets.html', {
-        "limit": limit,     # Current pet list limit
-        "offset": offset,   # Current pet list offset
-        # New offset if the previous button is pressed
-        "prevOffset": max(0, offset - limit),
-        # New offset if the next button is pressed
-        "nextOffset": pets[-1]["id"] + 1 if len(pets) == limit else offset,
-        "pets": pets,       # Pet list
-        "nbar": "list"      # Set page as active on the navbar
-    })
+    if response.status_code == 200: # Success
+        # Render page
+        pets = response.json()
+        return render(request, 'pets.html', {
+            "limit": limit,     # Current pet list limit
+            "offset": offset,   # Current pet list offset
+            # New offset if the previous button is pressed
+            "prevOffset": max(0, offset - limit),
+            # New offset if the next button is pressed
+            "nextOffset": pets[-1]["id"] + 1 if len(pets) == limit else offset,
+            "pets": pets,       # Pet list
+            "nbar": "list"      # Set page as active on the navbar
+        })
+    # Check for error codes
+    elif response.status_code == 400:
+        return render(request, 'error.html', {
+            "error": "Error 400: invalid offset/limit!"
+        })
+    else:
+        return render(request, 'error.html', {
+            "error": "Error %d!" % response.status_code
+        })
 
 # Pet page view
 def pet(request, id):
     # Request pet from ID
     response = requests.get('%s/%d' % (PETSTORE_END_POINT, id))
-    pet = response.json()
-    
-    # Render page
-    # If the API exposes new pet properties, they can be accessed through the
-    # template 'pet.html'
-    return render(request, 'pet.html', {
-        "pet": pet,         # Pet to show
-        "nbar": "pet"       # Set page as active on the navbar
-    })
+
+    if response.status_code == 200: # Success
+        # Render page
+        # If the API exposes new pet properties, they can be accessed through the
+        # template 'pet.html'
+        return render(request, 'pet.html', {
+            "pet": response.json(), # Pet to show
+            "nbar": "pet"           # Set page as active on the navbar
+        })
+    # Check for error codes
+    elif response.status_code == 404:
+        return render(request, 'error.html', {
+            "error": "Error 404: pet not found!"
+        })
+    elif response.status_code == 400:
+        return render(request, 'error.html', {
+            "error": "Error 400: invalid pet ID!"
+        })
+    else:
+        return render(request, 'error.html', {
+            "error": "Error %d!" % response.status_code
+        })
 
 # Pet addition form page view
 def add(request):
@@ -94,6 +116,10 @@ def add(request):
                     "nbar": "add",      # Set page as active on the navbar
                     "error": error      # Error message
                 })
+        else:
+            return render(request, 'error.html', {
+                "error": "Error: form is not valid!"
+            })
 
     # Render pet addition form page
     return render(request, 'add.html', {
