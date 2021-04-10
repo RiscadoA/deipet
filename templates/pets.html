@@ -35,6 +35,7 @@
     </tbody>
 </table>
 
+{# Only show previous/next buttons if there are previous and next pages #}
 {% if prevOffset != offset %}
 <a href="{{ request.path }}?offset={{prevOffset}}&limit={{limit}}" class="btn btn-primary" role="button">Previous</a>
 {% endif %}
