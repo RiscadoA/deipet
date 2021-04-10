@@ -20,6 +20,14 @@ the file `requirements.txt`. They can be installed using
 variables must be set and then the project can be run using
 `python manage.py runserver`.
 
+## Features that could be improved
+
+The `Previous` button on the pet list page assumes that all IDs have pets
+associated to them and there is no easy fix for this problem. I thought that
+I could make multiple `GET` requests until I found the previous pets on the list
+but that would probably make the page loading a bit slow and would also send too
+many requests to the API.
+
 ## Authors
 
 - Ricardo Antunes - [RiscadoA](https://github.com/RiscadoA)
